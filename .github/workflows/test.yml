@@ -1,0 +1,19 @@
+name: test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+
+      - name: Build 🔨
+        uses: swiftwasm/swiftwasm-action@v5.3
+        with:
+          shell-action: carton bundle
