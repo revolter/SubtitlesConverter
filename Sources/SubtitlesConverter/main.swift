@@ -1,3 +1,4 @@
+import JavaScriptKit
 import TokamakDOM
 
 struct TokamakApp: App {
@@ -10,7 +11,34 @@ struct TokamakApp: App {
 
 struct ContentView: View {
 	var body: some View {
-		Text("Hello, world!")
+		VStack {
+			HTML("input", [
+				"id": "file",
+				"type": "file"
+			])
+			Button("Convert") {
+				let document = JSObject.global.document
+				let input = document.getElementById("file")
+
+				guard let file = input.files.item(0).object else {
+					return
+				}
+
+				guard let promise = file.text?().object else {
+					return
+				}
+
+				guard let jsPromise = JSPromise<JSValue, Error>(promise) else {
+					return
+				}
+
+				jsPromise.then { value in
+					// Without this, `jsPromise` gets released before this
+					// closure gets called.
+					print(jsPromise)
+				}
+			}
+		}
 	}
 }
 
