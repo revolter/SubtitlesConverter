@@ -37,7 +37,14 @@ struct ContentView: View {
 						return
 					}
 
-					let newContent = "new text"
+					guard let content = value.string else {
+						return
+					}
+
+					guard let newContent = ExtenderConverter.convert(content) else {
+						return
+					}
+
 					let newContentEncoded = encodeURIComponent(newContent)
 					let newFile = "data:text/plain;charset=utf-16,\(newContentEncoded)"
 					let newFileName = "converted_\(file.name)"
