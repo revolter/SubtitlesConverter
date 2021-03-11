@@ -8,7 +8,7 @@
 import Foundation
 
 public struct ExtenderConverter {
-	private static let maximumDuration: TimeInterval = 30
+	private static let maximumDuration: TimeInterval = 10
 
 	private static let pattern = "(?<index>^\\d+$)\\n^(?<startTime>\\d\\d:[0-5]\\d:[0-5]\\d,\\d{1,3}) --> (?<endTime>\\d\\d:[0-5]\\d:[0-5]\\d,\\d{1,3})$\\n(?<text>(?:^.+$\\n?)+)"
 
