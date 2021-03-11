@@ -7,23 +7,14 @@
 
 import Foundation
 
-extension DateFormatter {
-	static var subtitleTimestampFormatter: DateFormatter = {
-		let formatter = DateFormatter()
-		formatter.dateFormat = "HH:mm:ss,SSS"
-
-		return formatter
-	}()
-}
-
 extension String {
 	func getSubtitleTimestampDate() -> Date? {
-		return DateFormatter.subtitleTimestampFormatter.date(from: self)
+		return SubtitleTimestampFormatter.date(from: self)
 	}
 }
 
 extension Date {
 	func getSubtitleTimestampString() -> String? {
-		return DateFormatter.subtitleTimestampFormatter.string(from: self)
+		return SubtitleTimestampFormatter.string(from: self)
 	}
 }
