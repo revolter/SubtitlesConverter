@@ -24,5 +24,9 @@ let package = Package(
 			name: "SubtitlesConverterTests",
 			dependencies: ["SubtitlesConverter"]
 		),
+		.testTarget(
+			name: "ConvertersTests",
+			dependencies: ["Converters"]
+		)
 	]
 )
