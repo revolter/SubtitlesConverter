@@ -44,20 +44,31 @@ public struct ExtenderConverter {
 			}
 
 			let previousStartTimestampString = String(newContent[previousStartTimeRange])
+			let previousEndTimestampString = String(newContent[previousEndTimeRange])
 			let startTimestampString = String(newContent[startTimeRange])
 
 			guard
 				let previousStartTimestampDate = previousStartTimestampString.getSubtitleTimestampDate(),
+				let previousEndTimestampDate = previousEndTimestampString.getSubtitleTimestampDate(),
 				let startTimestampDate = startTimestampString.getSubtitleTimestampDate()
 			else {
 				continue
 			}
 
-			let deltaSeconds = startTimestampDate.timeIntervalSince(previousStartTimestampDate)
+			let deltaSeconds = previousEndTimestampDate.timeIntervalSince(previousStartTimestampDate)
+			let newDeltaSeconds = startTimestampDate.timeIntervalSince(previousStartTimestampDate)
+
+			let isOverLimit = deltaSeconds > Self.maximumDuration
+			let willBeOverLimit = newDeltaSeconds > Self.maximumDuration
+
+			if isOverLimit {
+				continue
+			}
+
 			var newEndTimestampString: String
 
-			if deltaSeconds > Self.maximumDuration {
-				let extraSeconds = deltaSeconds - Self.maximumDuration
+			if willBeOverLimit {
+				let extraSeconds = newDeltaSeconds - Self.maximumDuration
 				let newPreviousEndTimestampDate = startTimestampDate.addingTimeInterval(-extraSeconds)
 
 				guard let timestampString = newPreviousEndTimestampDate.getSubtitleTimestampString() else {

@@ -13,6 +13,7 @@ final class ConvertersTests: XCTestCase {
 	static var allTests = [
 		("testExtenderOverLimit", testExtenderOverLimit),
 		("testExtenderUnderLimit", testExtenderUnderLimit),
+		("testExtenderAlreadyOverLimit", testExtenderAlreadyOverLimit),
 		("testExtenderMilliseconds", testExtenderMilliseconds)
 	]
 
@@ -71,6 +72,38 @@ final class ConvertersTests: XCTestCase {
 
 			2
 			00:00:03,333 --> 00:00:04,444
+			Subtitle 2
+
+			"""
+
+		let converted = try XCTUnwrap(ExtenderConverter.convert(original))
+
+		XCTAssertEqual(converted, expected)
+	}
+
+	func testExtenderAlreadyOverLimit() throws {
+		let original =
+			"""
+
+			18
+			00:00:00,000 --> 00:00:11,000
+			Subtitle 1
+
+			19
+			00:00:12,000 --> 00:00:13,000
+			Subtitle 2
+
+			"""
+
+		let expected =
+			"""
+
+			18
+			00:00:00,000 --> 00:00:11,000
+			Subtitle 1
+
+			19
+			00:00:12,000 --> 00:00:13,000
 			Subtitle 2
 
 			"""
