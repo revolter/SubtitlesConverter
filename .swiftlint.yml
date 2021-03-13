@@ -109,3 +109,5 @@ type_contents_order:
         - other_method
         - subscript
         - ib_action
+
+warning_threshold: 1

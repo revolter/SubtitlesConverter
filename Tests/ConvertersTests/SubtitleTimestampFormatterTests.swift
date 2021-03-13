@@ -8,8 +8,7 @@
 import Foundation
 import XCTest
 
-@testable
-import Converters
+@testable import Converters
 
 final class SubtitleTimestampFormatterTests: XCTestCase {
 	static var allTests = [

@@ -7,10 +7,11 @@
 
 import XCTest
 
-import SubtitlesConverterTests
 import ConvertersTests
+import SubtitlesConverterTests
 
 var tests = [XCTestCaseEntry]()
+
 tests += SubtitlesConverterTests.allTests()
 tests += ConvertersTests.allTests()
 

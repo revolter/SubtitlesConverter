@@ -7,15 +7,17 @@
 
 import Foundation
 
-public struct ExtenderConverter {
+public enum ExtenderConverter {
 	private static let maximumDuration: TimeInterval = 10
 
+	// swiftlint:disable:next line_length
 	private static let pattern = "(?<index>^\\d+$)\\n^(?<startTime>\\d\\d:[0-5]\\d:[0-5]\\d,\\d{1,3}) --> (?<endTime>\\d\\d:[0-5]\\d:[0-5]\\d,\\d{1,3})$\\n(?<text>(?:^.+$\\n?)+)"
 
 	private static let regex = try? NSRegularExpression(pattern: Self.pattern, options: .anchorsMatchLines)
 
 	// MARK: - Public
 
+	// swiftlint:disable:next function_body_length
 	public static func convert(_ content: String) -> String? {
 		guard let regex = Self.regex else {
 			return nil

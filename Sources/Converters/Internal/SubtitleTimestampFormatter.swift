@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SubtitleTimestampFormatter {
+enum SubtitleTimestampFormatter {
 	private static let nanosecondsInMillisecond = 1_000_000.0
 
 	private static let calendar = Calendar(identifier: .gregorian)
@@ -74,7 +74,13 @@ struct SubtitleTimestampFormatter {
 
 		let nanosecond = Int(round(millisecond * self.nanosecondsInMillisecond))
 
-		let components = DateComponents(calendar: self.calendar, hour: hour, minute: minute, second: second, nanosecond: nanosecond)
+		let components = DateComponents(
+			calendar: self.calendar,
+			hour: hour,
+			minute: minute,
+			second: second,
+			nanosecond: nanosecond
+		)
 
 		return self.calendar.date(from: components)
 	}
