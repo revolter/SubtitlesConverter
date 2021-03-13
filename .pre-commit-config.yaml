@@ -21,3 +21,7 @@ repos:
     -   id: mixed-line-ending
     -   id: no-commit-to-branch
     -   id: trailing-whitespace
+-   repo: https://github.com/hodovani/pre-commit-swift
+    rev: 0551a93
+    hooks:
+    -   id: swift-lint
