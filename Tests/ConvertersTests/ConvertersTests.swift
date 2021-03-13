@@ -19,6 +19,7 @@ final class ConvertersTests: XCTestCase {
 	func testExtenderOverLimit() throws {
 		let original =
 			"""
+
 			1
 			00:00:01,000 --> 00:00:02,000
 			Subtitle 1
@@ -26,10 +27,12 @@ final class ConvertersTests: XCTestCase {
 			2
 			00:00:15,000 --> 00:00:16,000
 			Subtitle 2
+
 			"""
 
 		let expected =
 			"""
+
 			1
 			00:00:01,000 --> 00:00:11,000
 			Subtitle 1
@@ -37,9 +40,10 @@ final class ConvertersTests: XCTestCase {
 			2
 			00:00:15,000 --> 00:00:16,000
 			Subtitle 2
+
 			"""
 
-		let converted = ExtenderConverter.convert(original)
+		let converted = try XCTUnwrap(ExtenderConverter.convert(original))
 
 		XCTAssertEqual(converted, expected)
 	}
@@ -47,6 +51,7 @@ final class ConvertersTests: XCTestCase {
 	func testExtenderUnderLimit() throws {
 		let original =
 			"""
+
 			1
 			00:00:01,111 --> 00:00:02,222
 			Subtitle 1
@@ -54,10 +59,12 @@ final class ConvertersTests: XCTestCase {
 			2
 			00:00:03,333 --> 00:00:04,444
 			Subtitle 2
+
 			"""
 
 		let expected =
 			"""
+
 			1
 			00:00:01,111 --> 00:00:03,333
 			Subtitle 1
@@ -65,9 +72,10 @@ final class ConvertersTests: XCTestCase {
 			2
 			00:00:03,333 --> 00:00:04,444
 			Subtitle 2
+
 			"""
 
-		let converted = ExtenderConverter.convert(original)
+		let converted = try XCTUnwrap(ExtenderConverter.convert(original))
 
 		XCTAssertEqual(converted, expected)
 	}
@@ -75,6 +83,7 @@ final class ConvertersTests: XCTestCase {
 	func testExtenderMilliseconds() throws {
 		let original =
 			"""
+
 			1
 			00:00:01,111 --> 00:00:02,222
 			Subtitle 1
@@ -82,10 +91,12 @@ final class ConvertersTests: XCTestCase {
 			2
 			00:00:15,333 --> 00:00:16,444
 			Subtitle 2
+
 			"""
 
 		let expected =
 			"""
+
 			1
 			00:00:01,111 --> 00:00:11,111
 			Subtitle 1
@@ -93,9 +104,10 @@ final class ConvertersTests: XCTestCase {
 			2
 			00:00:15,333 --> 00:00:16,444
 			Subtitle 2
+
 			"""
 
-		let converted = ExtenderConverter.convert(original)
+		let converted = try XCTUnwrap(ExtenderConverter.convert(original))
 
 		XCTAssertEqual(converted, expected)
 	}
