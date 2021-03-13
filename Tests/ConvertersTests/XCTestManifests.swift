@@ -11,6 +11,7 @@ import XCTest
 public func allTests() -> [XCTestCaseEntry] {
 	return [
 		testCase(ConvertersTests.allTests),
+		testCase(SubtitleTimestampFormatterTests.allTests)
 	]
 }
 #endif

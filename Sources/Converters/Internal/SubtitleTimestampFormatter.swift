@@ -29,13 +29,10 @@ struct SubtitleTimestampFormatter {
 
 		let millisecond = nanosecond / self.nanosecondsInMillisecond
 
-		let padLength = 2
-		let padText = "0"
-
-		let paddedHour = String(hour).padding(toLength: padLength, withPad: padText, startingAt: 0)
-		let paddedMinute = String(minute).padding(toLength: padLength, withPad: padText, startingAt: 0)
-		let paddedSecond = String(second).padding(toLength: padLength, withPad: padText, startingAt: 0)
-		let paddedMillisecond = String(millisecond).padding(toLength: 3, withPad: padText, startingAt: 0)
+		let paddedHour = String(format: "%02d", hour)
+		let paddedMinute = String(format: "%02d", minute)
+		let paddedSecond = String(format: "%02d", second)
+		let paddedMillisecond = String(format: "%03d", millisecond)
 
 		return "\(paddedHour):\(paddedMinute):\(paddedSecond),\(paddedMillisecond)"
 	}
