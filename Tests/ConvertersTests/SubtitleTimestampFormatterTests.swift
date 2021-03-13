@@ -23,14 +23,14 @@ final class SubtitleTimestampFormatterTests: XCTestCase {
 	]
 
 	func test1() throws {
-		let original = "00:00:00,010"
+		let original = "00:00:00,001"
 		let converted = try XCTUnwrap(original.getSubtitleTimestampDate()?.getSubtitleTimestampString())
 
 		XCTAssertEqual(converted, original)
 	}
 
 	func test2() throws {
-		let original = "00:00:00,001"
+		let original = "00:00:00,010"
 		let converted = try XCTUnwrap(original.getSubtitleTimestampDate()?.getSubtitleTimestampString())
 
 		XCTAssertEqual(converted, original)
