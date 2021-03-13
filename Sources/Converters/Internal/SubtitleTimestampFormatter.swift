@@ -1,6 +1,6 @@
 //
 //  SubtitleTimestampFormatter.swift
-//  
+//  SubtitlesConverter
 //
 //  Created by Iulian Onofrei on 10.03.2021.
 //

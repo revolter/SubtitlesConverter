@@ -1,6 +1,6 @@
 //
 //  XCTestManifests.swift
-//
+//  SubtitlesConverter
 //
 //  Created by Iulian Onofrei on 12.03.2021.
 //

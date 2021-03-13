@@ -1,6 +1,6 @@
 //
 //  ExtenderConverter.swift
-//  
+//  SubtitlesConverter
 //
 //  Created by Iulian Onofrei on 09.03.2021.
 //
