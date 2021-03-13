@@ -1,5 +1,5 @@
 //
-//  ConvertersTests.swift
+//  ExtenderConverterTests.swift
 //
 //
 //  Created by Iulian Onofrei on 12.03.2021.
@@ -9,7 +9,7 @@ import XCTest
 
 import Converters
 
-final class ConvertersTests: XCTestCase {
+final class ExtenderConverterTests: XCTestCase {
 	static var allTests = [
 		("testExtenderOverLimit", testExtenderOverLimit),
 		("testExtenderUnderLimit", testExtenderUnderLimit),

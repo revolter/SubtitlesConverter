@@ -10,7 +10,7 @@ import XCTest
 #if !canImport(ObjectiveC)
 public func allTests() -> [XCTestCaseEntry] {
 	return [
-		testCase(ConvertersTests.allTests),
+		testCase(ExtenderConvertersTests.allTests),
 		testCase(SubtitleTimestampFormatterTests.allTests)
 	]
 }
