@@ -2,7 +2,7 @@
 //  XCTestManifests.swift
 //  SubtitlesConverter
 //
-//  Created by Iulian Onofrei on 05.03.2021.
+//  Created by Iulian Onofrei on 12.03.2021.
 //
 
 import XCTest
@@ -10,7 +10,8 @@ import XCTest
 #if !canImport(ObjectiveC)
 public func allTests() -> [XCTestCaseEntry] {
 	return [
-		testCase(SubtitlesConverterTests.allTests)
+		testCase(ExtenderConvertersTests.allTests),
+		testCase(SubtitleTimestampFormatterTests.allTests)
 	]
 }
 #endif
