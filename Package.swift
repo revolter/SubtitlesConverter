@@ -9,7 +9,8 @@ let package = Package(
 		.executable(name: "SubtitlesConverter", targets: ["SubtitlesConverter"])
 	],
 	dependencies: [
-		.package(name: "Tokamak", url: "https://github.com/TokamakUI/Tokamak", from: "0.6.1")
+		.package(url: "https://github.com/TokamakUI/Tokamak", from: "0.6.1"),
+		.package(url: "https://github.com/Cosmo/ISO8859", from: "1.1.0")
 	],
 	targets: [
 		.target(
@@ -19,7 +20,12 @@ let package = Package(
 				.target(name: "Converters")
 			]
 		),
-		.target(name: "Converters"),
+		.target(
+			name: "Converters",
+			dependencies: [
+				.product(name: "ISO8859", package: "ISO8859")
+			]
+		),
 		.testTarget(
 			name: "SubtitlesConverterTests",
 			dependencies: ["SubtitlesConverter"]
