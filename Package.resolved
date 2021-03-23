@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "DOMKit",
+        "repositoryURL": "https://github.com/swiftwasm/DOMKit",
+        "state": {
+          "branch": "main",
+          "revision": "e45d37fbfddbe982a612f577d41ade85bab1bfbc",
+          "version": null
+        }
+      },
+      {
         "package": "ISO8859",
         "repositoryURL": "https://github.com/Cosmo/ISO8859",
         "state": {
