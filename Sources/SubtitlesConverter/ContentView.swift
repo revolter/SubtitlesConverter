@@ -5,14 +5,13 @@
 //  Created by Iulian Onofrei on 13.03.2021.
 //
 
+import DOMKit
 import JavaScriptKit
 import TokamakDOM
 
 import Converters
 
 struct ContentView: View {
-	@State var romanianFileLoadClosure: JSClosure?
-
 	var body: some View {
 		VStack {
 			HTML("input", [
@@ -67,31 +66,29 @@ struct ContentView: View {
 			Button("Romanian") {
 				let document = JSObject.global.document
 				var input = document.getElementById("file")
+				let file = input.files.item(0)
 
-				guard let file = input.files.item(0).object else {
-					return
-				}
+				let fileReader = FileReader()
 
-				let fileReader = JSFileReader()
-
-				let closure: ([JSValue]) -> Void = { _ in
-					guard
-						let state = fileReader.readyState,
-						state == .done
-					else {
-						return
+				fileReader.onload = { _ in
+					guard fileReader.readyState == fileReader.DONE else {
+						return .undefined
 					}
 
-					guard let content = fileReader.result else {
-						return
+					guard let result = fileReader.result else {
+						return .undefined
+					}
+
+					guard case let .string(content) = result else {
+						return .undefined
 					}
 
 					guard let encodeURIComponent = JSObject.global.encodeURIComponent.function else {
-						return
+						return .undefined
 					}
 
 					guard let newContent = RomanianConverter.convert(content) else {
-						return
+						return .undefined
 					}
 
 					let newContentEncoded = encodeURIComponent(newContent)
@@ -105,16 +102,14 @@ struct ContentView: View {
 
 					input.value = ""
 
-					self.romanianFileLoadClosure?.release()
+					return .undefined
 				}
 
-				self.romanianFileLoadClosure = JSClosure(closure)
-
-				if let listener = self.romanianFileLoadClosure {
-					fileReader.onload = .object(listener)
-
-					fileReader.readAsText(blob: file, encoding: "windows-1252")
+				guard let blob = Blob(from: file) else {
+					return
 				}
+
+				fileReader.readAsText(blob: blob, encoding: "windows-1252")
 			}
 		}
 	}
