@@ -22,24 +22,16 @@ struct ContentView: View {
 				let document = JSObject.global.document
 				var input = document.getElementById("file")
 
-				guard let file = input.files.item(0).object else {
+				let jsFile = input.files.item(0)
+
+				guard let file = File(from: jsFile) else {
 					return
 				}
 
-				guard let promise = file.text?().object else {
-					return
-				}
+				let jsPromise = file.text()
 
-				guard let jsPromise = JSPromise<JSValue, Error>(promise) else {
-					return
-				}
-
-				jsPromise.then { value in
+				jsPromise.then { content in
 					guard let encodeURIComponent = JSObject.global.encodeURIComponent.function else {
-						return
-					}
-
-					guard let content = value.string else {
 						return
 					}
 
