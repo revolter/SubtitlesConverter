@@ -12,7 +12,8 @@ import Converters
 final class RomanianConverterTests: XCTestCase {
 	static var allTests = [
 		("testChangedDiacritics", testChangedDiacritics),
-		("testUnchangedDiacritics", testUnchangedDiacritics)
+		("testUnchangedDiacritics", testUnchangedDiacritics),
+		("testUnchangedContent", testUnchangedContent)
 	]
 
 	func testChangedDiacritics() throws {
@@ -24,12 +25,19 @@ final class RomanianConverterTests: XCTestCase {
 		XCTAssertEqual(converted, expected)
 	}
 
-	func testUnchangedDiacritics() throws {
+	func testUnchangedDiacritics() {
 		let original = "âîÂÎ"
-		let expected = "âîÂÎ"
 
-		let converted = try XCTUnwrap(RomanianConverter.convert(original))
+		let converted = RomanianConverter.convert(original)
 
-		XCTAssertEqual(converted, expected)
+		XCTAssertNil(converted)
+	}
+
+	func testUnchangedContent() {
+		let original = "English text"
+
+		let converted = RomanianConverter.convert(original)
+
+		XCTAssertNil(converted)
 	}
 }

@@ -17,7 +17,8 @@ final class ExtenderConverterTests: XCTestCase {
 		("testMilliseconds", testMilliseconds),
 		("testLinuxLineEndings", testLinuxLineEndings),
 		("testWindowsLineEndings", testWindowsLineEndings),
-		("testOldMacLineEndings", testOldMacLineEndings)
+		("testOldMacLineEndings", testOldMacLineEndings),
+		("testUnchangedContent", testUnchangedContent)
 	]
 
 	func testOverLimit() throws {
@@ -84,7 +85,7 @@ final class ExtenderConverterTests: XCTestCase {
 		XCTAssertEqual(converted, expected)
 	}
 
-	func testAlreadyOverLimit() throws {
+	func testAlreadyOverLimit() {
 		let original =
 			"""
 
@@ -98,22 +99,9 @@ final class ExtenderConverterTests: XCTestCase {
 
 			"""
 
-		let expected =
-			"""
+		let converted = ExtenderConverter.convert(original)
 
-			18
-			00:00:00,000 --> 00:00:11,000
-			Subtitle 1
-
-			19
-			00:00:12,000 --> 00:00:13,000
-			Subtitle 2
-
-			"""
-
-		let converted = try XCTUnwrap(ExtenderConverter.convert(original))
-
-		XCTAssertEqual(converted, expected)
+		XCTAssertNil(converted)
 	}
 
 	func testMilliseconds() throws {
@@ -175,5 +163,24 @@ final class ExtenderConverterTests: XCTestCase {
 		let converted = try XCTUnwrap(ExtenderConverter.convert(original))
 
 		XCTAssertEqual(converted, expected)
+	}
+
+	func testUnchangedContent() {
+		let original =
+			"""
+
+			1
+			00:00:01,111 --> 00:00:02,222
+			Subtitle 1
+
+			2
+			00:00:02,222 --> 00:00:03,333
+			Subtitle 2
+
+			"""
+
+		let converted = ExtenderConverter.convert(original)
+
+		XCTAssertNil(converted)
 	}
 }

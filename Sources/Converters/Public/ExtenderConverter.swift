@@ -134,6 +134,10 @@ public enum ExtenderConverter {
 			newContent.replaceSubrange(previousEndTimeRange, with: newEndTimestampString)
 		}
 
+		guard newContent != content else {
+			return nil
+		}
+
 		return newContent
 	}
 }
