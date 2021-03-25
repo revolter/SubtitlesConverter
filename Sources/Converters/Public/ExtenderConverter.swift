@@ -10,12 +10,45 @@ import Foundation
 public enum ExtenderConverter {
 	private static let maximumDuration: TimeInterval = 10
 
-	// swiftlint:disable line_length
 	private static let pattern =
 		#"""
-		(?<index>^\d+$)(?:\n|\r\n|\r)^(?<startTime>\d{2}:[0-5]\d:[0-5]\d,\d{1,3})\x20-->\x20(?<endTime>\d{2}:[0-5]\d:[0-5]\d,\d{1,3})$(?:\n|\r\n|\r)(?<text>(?:^.+$(?:\n|\r\n|\r)?)+)
+		(?<index>				# capture the index
+			^\d+$				# matching an entire line composed of digits
+		)
+
+		(?:						# don't capture the EOL
+			\n|\r\n|\r			# represented by one of the possible line endings
+		)
+
+		^						# match from the beginning of the line
+			(?<startTime>		# capture the start time
+				\d{2}:			# matching any 2 digits as the hour, and the `:` separator
+				[0-5]\d:		# matching 2 digits, where the first one goes up to 5, as the minute, and the `:` separator
+				[0-5]\d,		# matching 2 digits, where the first one goes up to 5, as the second, and the `,` separator
+				\d{1,3}			# matching any 3 digits as the millisecond
+			)
+			\x20-->\x20			# followed by ` --> `
+			(?<endTime>			# capture the end time
+				\d{2}:			# matching any 2 digits as the hour, and the `:` separator
+				[0-5]\d:		# matching 2 digits, where the first one goes up to 5, as the minute, and the `:` separator
+				[0-5]\d,		# matching 2 digits, where the first one goes up to 5, as the second, and the `,` separator
+				\d{1,3}			# matching any 3 digits as the millisecond
+			)
+		$						# matching to the end of the line
+
+		(?:						# don't capture the EOL
+			\n|\r\n|\r			# represented by one of the possible line endings
+		)
+
+		(?<text>				# capture the text
+			(?:					# not capturing each line separately
+				^.+$			# matching an entire line composed of any character
+				(?:				# not capturing the EOL
+					\n|\r\n|\r	# represented by one of the possible line endings
+				)?				# appearing zero or more times
+			)+					# appearing one or more times
+		)
 		"""#
-	// swiftlint:enable line_length
 
 	private static let regex = try? NSRegularExpression(
 		pattern: Self.pattern,
