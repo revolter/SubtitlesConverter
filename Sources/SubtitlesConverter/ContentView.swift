@@ -34,11 +34,11 @@ struct ContentView: View {
 				let jsPromise = file.text()
 
 				jsPromise.then { content in
-					guard let encodeURIComponent = JSObject.global.encodeURIComponent.function else {
+					guard let newContent = ExtenderConverter.convert(content) else {
 						return
 					}
 
-					guard let newContent = ExtenderConverter.convert(content) else {
+					guard let encodeURIComponent = JSObject.global.encodeURIComponent.function else {
 						return
 					}
 
@@ -77,11 +77,11 @@ struct ContentView: View {
 						return .undefined
 					}
 
-					guard let encodeURIComponent = JSObject.global.encodeURIComponent.function else {
+					guard let newContent = RomanianConverter.convert(content) else {
 						return .undefined
 					}
 
-					guard let newContent = RomanianConverter.convert(content) else {
+					guard let encodeURIComponent = JSObject.global.encodeURIComponent.function else {
 						return .undefined
 					}
 
