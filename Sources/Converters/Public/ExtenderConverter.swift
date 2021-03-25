@@ -10,6 +10,11 @@ import Foundation
 public enum ExtenderConverter {
 	private static let maximumDuration: TimeInterval = 10
 
+	private static let lineEndingsPattern =
+		#"""
+		\n|\r\n|\r	# represented by one of the possible line endings
+		"""#
+
 	private static let pattern =
 		#"""
 		(?<index>				# capture the index
@@ -17,7 +22,7 @@ public enum ExtenderConverter {
 		)
 
 		(?:						# don't capture the EOL
-			\n|\r\n|\r			# represented by one of the possible line endings
+			\#(Self.lineEndingsPattern)
 		)
 
 		^						# match from the beginning of the line
@@ -37,14 +42,14 @@ public enum ExtenderConverter {
 		$						# matching to the end of the line
 
 		(?:						# don't capture the EOL
-			\n|\r\n|\r			# represented by one of the possible line endings
+			\#(Self.lineEndingsPattern)
 		)
 
 		(?<text>				# capture the text
 			(?:					# not capturing each line separately
 				^.+$			# matching an entire line composed of any character
 				(?:				# not capturing the EOL
-					\n|\r\n|\r	# represented by one of the possible line endings
+					\#(Self.lineEndingsPattern)
 				)?				# appearing zero or more times
 			)+					# appearing one or more times
 		)
