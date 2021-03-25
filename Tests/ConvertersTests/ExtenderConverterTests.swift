@@ -11,16 +11,16 @@ import Converters
 
 final class ExtenderConverterTests: XCTestCase {
 	static var allTests = [
-		("testExtenderOverLimit", testExtenderOverLimit),
-		("testExtenderUnderLimit", testExtenderUnderLimit),
-		("testExtenderAlreadyOverLimit", testExtenderAlreadyOverLimit),
-		("testExtenderMilliseconds", testExtenderMilliseconds),
-		("testExtenderLinuxLineEndings", testExtenderLinuxLineEndings),
-		("testExtenderWindowsLineEndings", testExtenderWindowsLineEndings),
-		("testExtenderOldMacLineEndings", testExtenderOldMacLineEndings)
+		("testOverLimit", testOverLimit),
+		("testUnderLimit", testUnderLimit),
+		("testAlreadyOverLimit", testAlreadyOverLimit),
+		("testMilliseconds", testMilliseconds),
+		("testLinuxLineEndings", testLinuxLineEndings),
+		("testWindowsLineEndings", testWindowsLineEndings),
+		("testOldMacLineEndings", testOldMacLineEndings)
 	]
 
-	func testExtenderOverLimit() throws {
+	func testOverLimit() throws {
 		let original =
 			"""
 
@@ -52,7 +52,7 @@ final class ExtenderConverterTests: XCTestCase {
 		XCTAssertEqual(converted, expected)
 	}
 
-	func testExtenderUnderLimit() throws {
+	func testUnderLimit() throws {
 		let original =
 			"""
 
@@ -84,7 +84,7 @@ final class ExtenderConverterTests: XCTestCase {
 		XCTAssertEqual(converted, expected)
 	}
 
-	func testExtenderAlreadyOverLimit() throws {
+	func testAlreadyOverLimit() throws {
 		let original =
 			"""
 
@@ -116,7 +116,7 @@ final class ExtenderConverterTests: XCTestCase {
 		XCTAssertEqual(converted, expected)
 	}
 
-	func testExtenderMilliseconds() throws {
+	func testMilliseconds() throws {
 		let original =
 			"""
 
@@ -148,7 +148,7 @@ final class ExtenderConverterTests: XCTestCase {
 		XCTAssertEqual(converted, expected)
 	}
 
-	func testExtenderLinuxLineEndings() throws {
+	func testLinuxLineEndings() throws {
 		let original = "\n1\n00:00:01,111 --> 00:00:02,222\nSubtitle 1\n\n2\n00:00:15,333 --> 00:00:16,444\nSubtitle 2\n"
 		let expected = "\n1\n00:00:01,111 --> 00:00:11,111\nSubtitle 1\n\n2\n00:00:15,333 --> 00:00:16,444\nSubtitle 2\n"
 
@@ -157,7 +157,7 @@ final class ExtenderConverterTests: XCTestCase {
 		XCTAssertEqual(converted, expected)
 	}
 
-	func testExtenderWindowsLineEndings() throws {
+	func testWindowsLineEndings() throws {
 		// swiftlint:disable line_length
 		let original = "\r\n1\r\n00:00:01,111 --> 00:00:02,222\r\nSubtitle 1\r\n\r\n2\r\n00:00:15,333 --> 00:00:16,444\r\nSubtitle 2\r\n"
 		let expected = "\r\n1\r\n00:00:01,111 --> 00:00:11,111\r\nSubtitle 1\r\n\r\n2\r\n00:00:15,333 --> 00:00:16,444\r\nSubtitle 2\r\n"
@@ -168,7 +168,7 @@ final class ExtenderConverterTests: XCTestCase {
 		XCTAssertEqual(converted, expected)
 	}
 
-	func testExtenderOldMacLineEndings() throws {
+	func testOldMacLineEndings() throws {
 		let original = "\r1\r00:00:01,111 --> 00:00:02,222\rSubtitle 1\r\r2\r00:00:15,333 --> 00:00:16,444\rSubtitle 2\r"
 		let expected = "\r1\r00:00:01,111 --> 00:00:11,111\rSubtitle 1\r\r2\r00:00:15,333 --> 00:00:16,444\rSubtitle 2\r"
 
