@@ -12,12 +12,14 @@ import TokamakDOM
 import Converters
 
 struct ContentView: View {
+	static let inputId = "file"
+
 	var document = JSObject.global.document
 
 	var body: some View {
 		VStack {
 			HTML("input", [
-				"id": "file",
+				"id": Self.inputId,
 				"type": "file"
 			])
 			Button("Extend") {
@@ -107,6 +109,6 @@ struct ContentView: View {
 	}
 
 	func getInput() -> JSValue {
-		return self.document.getElementById("file")
+		return self.document.getElementById(Self.inputId)
 	}
 }
