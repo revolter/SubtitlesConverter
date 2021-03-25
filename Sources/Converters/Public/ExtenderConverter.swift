@@ -22,6 +22,14 @@ public enum ExtenderConverter {
 		)
 		"""#
 
+	private static let timestampPattern =
+		#"""
+		\d{2}:		# matching any 2 digits as the hour, and the `:` separator
+		[0-5]\d:	# matching 2 digits, where the first one goes up to 5, as the minute, and the `:` separator
+		[0-5]\d,	# matching 2 digits, where the first one goes up to 5, as the second, and the `,` separator
+		\d{1,3}		# matching any 3 digits as the millisecond
+		"""#
+
 	private static let pattern =
 		#"""
 		(?<index>			# capture the index
@@ -32,17 +40,11 @@ public enum ExtenderConverter {
 
 		^					# match from the beginning of the line
 			(?<startTime>	# capture the start time
-				\d{2}:		# matching any 2 digits as the hour, and the `:` separator
-				[0-5]\d:	# matching 2 digits, where the first one goes up to 5, as the minute, and the `:` separator
-				[0-5]\d,	# matching 2 digits, where the first one goes up to 5, as the second, and the `,` separator
-				\d{1,3}		# matching any 3 digits as the millisecond
+				\#(Self.timestampPattern)
 			)
 			\x20-->\x20		# followed by ` --> `
 			(?<endTime>		# capture the end time
-				\d{2}:		# matching any 2 digits as the hour, and the `:` separator
-				[0-5]\d:	# matching 2 digits, where the first one goes up to 5, as the minute, and the `:` separator
-				[0-5]\d,	# matching 2 digits, where the first one goes up to 5, as the second, and the `,` separator
-				\d{1,3}		# matching any 3 digits as the millisecond
+				\#(Self.timestampPattern)
 			)
 		$					# matching to the end of the line
 
