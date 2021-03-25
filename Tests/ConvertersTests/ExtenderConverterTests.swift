@@ -14,7 +14,10 @@ final class ExtenderConverterTests: XCTestCase {
 		("testExtenderOverLimit", testExtenderOverLimit),
 		("testExtenderUnderLimit", testExtenderUnderLimit),
 		("testExtenderAlreadyOverLimit", testExtenderAlreadyOverLimit),
-		("testExtenderMilliseconds", testExtenderMilliseconds)
+		("testExtenderMilliseconds", testExtenderMilliseconds),
+		("testExtenderLinuxLineEndings", testExtenderLinuxLineEndings),
+		("testExtenderWindowsLineEndings", testExtenderWindowsLineEndings),
+		("testExtenderOldMacLineEndings", testExtenderOldMacLineEndings)
 	]
 
 	func testExtenderOverLimit() throws {
@@ -139,6 +142,35 @@ final class ExtenderConverterTests: XCTestCase {
 			Subtitle 2
 
 			"""
+
+		let converted = try XCTUnwrap(ExtenderConverter.convert(original))
+
+		XCTAssertEqual(converted, expected)
+	}
+
+	func testExtenderLinuxLineEndings() throws {
+		let original = "\n1\n00:00:01,111 --> 00:00:02,222\nSubtitle 1\n\n2\n00:00:15,333 --> 00:00:16,444\nSubtitle 2\n"
+		let expected = "\n1\n00:00:01,111 --> 00:00:11,111\nSubtitle 1\n\n2\n00:00:15,333 --> 00:00:16,444\nSubtitle 2\n"
+
+		let converted = try XCTUnwrap(ExtenderConverter.convert(original))
+
+		XCTAssertEqual(converted, expected)
+	}
+
+	func testExtenderWindowsLineEndings() throws {
+		// swiftlint:disable line_length
+		let original = "\r\n1\r\n00:00:01,111 --> 00:00:02,222\r\nSubtitle 1\r\n\r\n2\r\n00:00:15,333 --> 00:00:16,444\r\nSubtitle 2\r\n"
+		let expected = "\r\n1\r\n00:00:01,111 --> 00:00:11,111\r\nSubtitle 1\r\n\r\n2\r\n00:00:15,333 --> 00:00:16,444\r\nSubtitle 2\r\n"
+		// swiftlint:enable line_length
+
+		let converted = try XCTUnwrap(ExtenderConverter.convert(original))
+
+		XCTAssertEqual(converted, expected)
+	}
+
+	func testExtenderOldMacLineEndings() throws {
+		let original = "\r1\r00:00:01,111 --> 00:00:02,222\rSubtitle 1\r\r2\r00:00:15,333 --> 00:00:16,444\rSubtitle 2\r"
+		let expected = "\r1\r00:00:01,111 --> 00:00:11,111\rSubtitle 1\r\r2\r00:00:15,333 --> 00:00:16,444\rSubtitle 2\r"
 
 		let converted = try XCTUnwrap(ExtenderConverter.convert(original))
 
