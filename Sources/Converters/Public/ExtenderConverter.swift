@@ -10,10 +10,17 @@ import Foundation
 public enum ExtenderConverter {
 	private static let maximumDuration: TimeInterval = 10
 
-	// swiftlint:disable:next line_length
-	private static let pattern = #"(?<index>^\d+$)(?:\n|\r\n|\r)^(?<startTime>\d\d:[0-5]\d:[0-5]\d,\d{1,3}) --> (?<endTime>\d\d:[0-5]\d:[0-5]\d,\d{1,3})$(?:\n|\r\n|\r)(?<text>(?:^.+$(?:\n|\r\n|\r)?)+)"#
+	// swiftlint:disable line_length
+	private static let pattern =
+		#"""
+		(?<index>^\d+$)(?:\n|\r\n|\r)^(?<startTime>\d\d:[0-5]\d:[0-5]\d,\d{1,3})\x20-->\x20(?<endTime>\d\d:[0-5]\d:[0-5]\d,\d{1,3})$(?:\n|\r\n|\r)(?<text>(?:^.+$(?:\n|\r\n|\r)?)+)
+		"""#
+	// swiftlint:enable line_length
 
-	private static let regex = try? NSRegularExpression(pattern: Self.pattern, options: .anchorsMatchLines)
+	private static let regex = try? NSRegularExpression(
+		pattern: Self.pattern,
+		options: [.anchorsMatchLines, .allowCommentsAndWhitespace]
+	)
 
 	// MARK: - Public
 
