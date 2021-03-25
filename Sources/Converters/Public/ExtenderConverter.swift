@@ -15,43 +15,45 @@ public enum ExtenderConverter {
 		\n|\r\n|\r	# represented by one of the possible line endings
 		"""#
 
+	private static let notCapturedLineEndingPattern =
+		#"""
+		(?:	# don't capture the EOL
+			\#(Self.lineEndingsPattern)
+		)
+		"""#
+
 	private static let pattern =
 		#"""
-		(?<index>				# capture the index
-			^\d+$				# matching an entire line composed of digits
+		(?<index>			# capture the index
+			^\d+$			# matching an entire line composed of digits
 		)
 
-		(?:						# don't capture the EOL
-			\#(Self.lineEndingsPattern)
-		)
+		\#(Self.notCapturedLineEndingPattern)
 
-		^						# match from the beginning of the line
-			(?<startTime>		# capture the start time
-				\d{2}:			# matching any 2 digits as the hour, and the `:` separator
-				[0-5]\d:		# matching 2 digits, where the first one goes up to 5, as the minute, and the `:` separator
-				[0-5]\d,		# matching 2 digits, where the first one goes up to 5, as the second, and the `,` separator
-				\d{1,3}			# matching any 3 digits as the millisecond
+		^					# match from the beginning of the line
+			(?<startTime>	# capture the start time
+				\d{2}:		# matching any 2 digits as the hour, and the `:` separator
+				[0-5]\d:	# matching 2 digits, where the first one goes up to 5, as the minute, and the `:` separator
+				[0-5]\d,	# matching 2 digits, where the first one goes up to 5, as the second, and the `,` separator
+				\d{1,3}		# matching any 3 digits as the millisecond
 			)
-			\x20-->\x20			# followed by ` --> `
-			(?<endTime>			# capture the end time
-				\d{2}:			# matching any 2 digits as the hour, and the `:` separator
-				[0-5]\d:		# matching 2 digits, where the first one goes up to 5, as the minute, and the `:` separator
-				[0-5]\d,		# matching 2 digits, where the first one goes up to 5, as the second, and the `,` separator
-				\d{1,3}			# matching any 3 digits as the millisecond
+			\x20-->\x20		# followed by ` --> `
+			(?<endTime>		# capture the end time
+				\d{2}:		# matching any 2 digits as the hour, and the `:` separator
+				[0-5]\d:	# matching 2 digits, where the first one goes up to 5, as the minute, and the `:` separator
+				[0-5]\d,	# matching 2 digits, where the first one goes up to 5, as the second, and the `,` separator
+				\d{1,3}		# matching any 3 digits as the millisecond
 			)
-		$						# matching to the end of the line
+		$					# matching to the end of the line
 
-		(?:						# don't capture the EOL
-			\#(Self.lineEndingsPattern)
-		)
+		\#(Self.notCapturedLineEndingPattern)
 
-		(?<text>				# capture the text
-			(?:					# not capturing each line separately
-				^.+$			# matching an entire line composed of any character
-				(?:				# not capturing the EOL
-					\#(Self.lineEndingsPattern)
-				)?				# appearing zero or more times
-			)+					# appearing one or more times
+		(?<text>			# capture the text
+			(?:				# not capturing each line separately
+				^.+$		# matching an entire line composed of any character
+				\#(Self.notCapturedLineEndingPattern)
+				?			# appearing zero or more times
+			)+				# appearing one or more times
 		)
 		"""#
 
