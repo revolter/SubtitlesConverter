@@ -21,7 +21,7 @@ struct ContentView: View {
 				"type": "file"
 			])
 			Button("Extend") {
-				var input = self.document.getElementById("file")
+				var input = self.getInput()
 
 				let jsFile = input.files.item(0)
 
@@ -57,7 +57,7 @@ struct ContentView: View {
 				}
 			}
 			Button("Romanian") {
-				var input = self.document.getElementById("file")
+				var input = self.getInput()
 				let file = input.files.item(0)
 
 				let fileReader = FileReader()
@@ -104,5 +104,9 @@ struct ContentView: View {
 				fileReader.readAsText(blob: blob, encoding: "windows-1252")
 			}
 		}
+	}
+
+	func getInput() -> JSValue {
+		return self.document.getElementById("file")
 	}
 }
