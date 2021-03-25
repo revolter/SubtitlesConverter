@@ -38,16 +38,11 @@ struct ContentView: View {
 						return
 					}
 
-					guard let newBase64Content = self.getBase64(from: newContent) else {
-						return
-					}
-
 					let newFileName = "converted_\(file.name)"
 
-					let anchor = self.document.createElement("a")
-					_ = anchor.setAttribute("href", newBase64Content)
-					_ = anchor.setAttribute("download", newFileName)
-					_ = anchor.click()
+					guard self.downloadFile(withContent: newContent, name: newFileName) else {
+						return
+					}
 
 					input.value = ""
 
@@ -79,16 +74,11 @@ struct ContentView: View {
 						return .undefined
 					}
 
-					guard let newBase64Content = self.getBase64(from: newContent) else {
-						return .undefined
-					}
-
 					let newFileName = "converted_\(file.name)"
 
-					let anchor = self.document.createElement("a")
-					_ = anchor.setAttribute("href", newBase64Content)
-					_ = anchor.setAttribute("download", newFileName)
-					_ = anchor.click()
+					guard self.downloadFile(withContent: newContent, name: newFileName) else {
+						return .undefined
+					}
 
 					input.value = ""
 
@@ -116,5 +106,18 @@ struct ContentView: View {
 		let encodedText = encodeURIComponent(text)
 
 		return "data:text/plain;charset=utf-16,\(encodedText)"
+	}
+
+	func downloadFile(withContent content: String, name fileName: String) -> Bool {
+		guard let base64Content = self.getBase64(from: content) else {
+			return false
+		}
+
+		let anchor = self.document.createElement("a")
+		_ = anchor.setAttribute("href", base64Content)
+		_ = anchor.setAttribute("download", fileName)
+		_ = anchor.click()
+
+		return true
 	}
 }
