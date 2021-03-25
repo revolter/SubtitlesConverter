@@ -12,6 +12,8 @@ import TokamakDOM
 import Converters
 
 struct ContentView: View {
+	var document = JSObject.global.document
+
 	var body: some View {
 		VStack {
 			HTML("input", [
@@ -19,8 +21,7 @@ struct ContentView: View {
 				"type": "file"
 			])
 			Button("Extend") {
-				let document = JSObject.global.document
-				var input = document.getElementById("file")
+				var input = self.document.getElementById("file")
 
 				let jsFile = input.files.item(0)
 
@@ -43,7 +44,7 @@ struct ContentView: View {
 					let newFile = "data:text/plain;charset=utf-16,\(newContentEncoded)"
 					let newFileName = "converted_\(file.name)"
 
-					let anchor = document.createElement("a")
+					let anchor = self.document.createElement("a")
 					_ = anchor.setAttribute("href", newFile)
 					_ = anchor.setAttribute("download", newFileName)
 					_ = anchor.click()
@@ -56,8 +57,7 @@ struct ContentView: View {
 				}
 			}
 			Button("Romanian") {
-				let document = JSObject.global.document
-				var input = document.getElementById("file")
+				var input = self.document.getElementById("file")
 				let file = input.files.item(0)
 
 				let fileReader = FileReader()
@@ -87,7 +87,7 @@ struct ContentView: View {
 					let newFile = "data:text/plain;charset=utf-16,\(newContentEncoded)"
 					let newFileName = "converted_\(file.name)"
 
-					let anchor = document.createElement("a")
+					let anchor = self.document.createElement("a")
 					_ = anchor.setAttribute("href", newFile)
 					_ = anchor.setAttribute("download", newFileName)
 					_ = anchor.click()
