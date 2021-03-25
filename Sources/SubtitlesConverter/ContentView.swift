@@ -43,11 +43,11 @@ struct ContentView: View {
 					}
 
 					let newContentEncoded = encodeURIComponent(newContent)
-					let newFile = "data:text/plain;charset=utf-16,\(newContentEncoded)"
+					let newBase64Content = "data:text/plain;charset=utf-16,\(newContentEncoded)"
 					let newFileName = "converted_\(file.name)"
 
 					let anchor = self.document.createElement("a")
-					_ = anchor.setAttribute("href", newFile)
+					_ = anchor.setAttribute("href", newBase64Content)
 					_ = anchor.setAttribute("download", newFileName)
 					_ = anchor.click()
 
@@ -86,11 +86,11 @@ struct ContentView: View {
 					}
 
 					let newContentEncoded = encodeURIComponent(newContent)
-					let newFile = "data:text/plain;charset=utf-16,\(newContentEncoded)"
+					let newBase64Content = "data:text/plain;charset=utf-16,\(newContentEncoded)"
 					let newFileName = "converted_\(file.name)"
 
 					let anchor = self.document.createElement("a")
-					_ = anchor.setAttribute("href", newFile)
+					_ = anchor.setAttribute("href", newBase64Content)
 					_ = anchor.setAttribute("download", newFileName)
 					_ = anchor.click()
 
