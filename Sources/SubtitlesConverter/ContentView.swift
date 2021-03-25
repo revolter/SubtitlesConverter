@@ -38,12 +38,10 @@ struct ContentView: View {
 						return
 					}
 
-					guard let encodeURIComponent = JSObject.global.encodeURIComponent.function else {
+					guard let newBase64Content = self.getBase64(from: newContent) else {
 						return
 					}
 
-					let newContentEncoded = encodeURIComponent(newContent)
-					let newBase64Content = "data:text/plain;charset=utf-16,\(newContentEncoded)"
 					let newFileName = "converted_\(file.name)"
 
 					let anchor = self.document.createElement("a")
@@ -81,12 +79,10 @@ struct ContentView: View {
 						return .undefined
 					}
 
-					guard let encodeURIComponent = JSObject.global.encodeURIComponent.function else {
+					guard let newBase64Content = self.getBase64(from: newContent) else {
 						return .undefined
 					}
 
-					let newContentEncoded = encodeURIComponent(newContent)
-					let newBase64Content = "data:text/plain;charset=utf-16,\(newContentEncoded)"
 					let newFileName = "converted_\(file.name)"
 
 					let anchor = self.document.createElement("a")
@@ -110,5 +106,15 @@ struct ContentView: View {
 
 	func getInput() -> JSValue {
 		return self.document.getElementById(Self.inputId)
+	}
+
+	func getBase64(from text: String) -> String? {
+		guard let encodeURIComponent = JSObject.global.encodeURIComponent.function else {
+			return nil
+		}
+
+		let encodedText = encodeURIComponent(text)
+
+		return "data:text/plain;charset=utf-16,\(encodedText)"
 	}
 }
