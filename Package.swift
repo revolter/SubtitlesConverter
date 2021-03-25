@@ -9,17 +9,25 @@ let package = Package(
 		.executable(name: "SubtitlesConverter", targets: ["SubtitlesConverter"])
 	],
 	dependencies: [
-		.package(name: "Tokamak", url: "https://github.com/TokamakUI/Tokamak", from: "0.6.1")
+		.package(url: "https://github.com/TokamakUI/Tokamak", from: "0.6.1"),
+		.package(url: "https://github.com/Cosmo/ISO8859", from: "1.1.0"),
+		.package(url: "https://github.com/swiftwasm/DOMKit", .branch("main"))
 	],
 	targets: [
 		.target(
 			name: "SubtitlesConverter",
 			dependencies: [
 				.product(name: "TokamakShim", package: "Tokamak"),
+				.product(name: "DOMKit", package: "DOMKit"),
 				.target(name: "Converters")
 			]
 		),
-		.target(name: "Converters"),
+		.target(
+			name: "Converters",
+			dependencies: [
+				.product(name: "ISO8859", package: "ISO8859")
+			]
+		),
 		.testTarget(
 			name: "SubtitlesConverterTests",
 			dependencies: ["SubtitlesConverter"]
