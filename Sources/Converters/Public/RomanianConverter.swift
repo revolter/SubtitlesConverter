@@ -17,6 +17,12 @@ public enum RomanianConverter {
 			return nil
 		}
 
-		return String(contentData, iso8859Encoding: .part16)
+		let newContent = String(contentData, iso8859Encoding: .part16)
+
+		guard newContent != content else {
+			return nil
+		}
+
+		return newContent
 	}
 }

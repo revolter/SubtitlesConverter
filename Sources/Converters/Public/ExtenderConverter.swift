@@ -10,10 +10,59 @@ import Foundation
 public enum ExtenderConverter {
 	private static let maximumDuration: TimeInterval = 10
 
-	// swiftlint:disable:next line_length
-	private static let pattern = "(?<index>^\\d+$)\\n^(?<startTime>\\d\\d:[0-5]\\d:[0-5]\\d,\\d{1,3}) --> (?<endTime>\\d\\d:[0-5]\\d:[0-5]\\d,\\d{1,3})$\\n(?<text>(?:^.+$\\n?)+)"
+	private static let lineEndingsPattern =
+		#"""
+		\n|\r\n|\r	# represented by one of the possible line endings
+		"""#
 
-	private static let regex = try? NSRegularExpression(pattern: Self.pattern, options: .anchorsMatchLines)
+	private static let notCapturedLineEndingPattern =
+		#"""
+		(?:	# don't capture the EOL
+			\#(Self.lineEndingsPattern)
+		)
+		"""#
+
+	private static let timestampPattern =
+		#"""
+		\d{2}:		# matching any 2 digits as the hour, and the `:` separator
+		[0-5]\d:	# matching 2 digits, where the first one goes up to 5, as the minute, and the `:` separator
+		[0-5]\d,	# matching 2 digits, where the first one goes up to 5, as the second, and the `,` separator
+		\d{1,3}		# matching any 3 digits as the millisecond
+		"""#
+
+	private static let pattern =
+		#"""
+		(?<index>			# capture the index
+			^\d+$			# matching an entire line composed of digits
+		)
+
+		\#(Self.notCapturedLineEndingPattern)
+
+		^					# match from the beginning of the line
+			(?<startTime>	# capture the start time
+				\#(Self.timestampPattern)
+			)
+			\x20-->\x20		# followed by ` --> `
+			(?<endTime>		# capture the end time
+				\#(Self.timestampPattern)
+			)
+		$					# matching to the end of the line
+
+		\#(Self.notCapturedLineEndingPattern)
+
+		(?<text>			# capture the text
+			(?:				# not capturing each line separately
+				^.+$		# matching an entire line composed of any character
+				\#(Self.notCapturedLineEndingPattern)
+				?			# appearing zero or more times
+			)+				# appearing one or more times
+		)
+		"""#
+
+	private static let regex = try? NSRegularExpression(
+		pattern: Self.pattern,
+		options: [.anchorsMatchLines, .allowCommentsAndWhitespace]
+	)
 
 	// MARK: - Public
 
@@ -83,6 +132,10 @@ public enum ExtenderConverter {
 			}
 
 			newContent.replaceSubrange(previousEndTimeRange, with: newEndTimestampString)
+		}
+
+		guard newContent != content else {
+			return nil
 		}
 
 		return newContent
