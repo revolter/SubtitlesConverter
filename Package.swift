@@ -9,9 +9,9 @@ let package = Package(
 		.executable(name: "SubtitlesConverter", targets: ["SubtitlesConverter"])
 	],
 	dependencies: [
-		.package(url: "https://github.com/TokamakUI/Tokamak", .exact("0.6.1")),
+		.package(url: "https://github.com/TokamakUI/Tokamak", .exact("0.9.0")),
 		.package(url: "https://github.com/Cosmo/ISO8859", .exact("1.1.0")),
-		.package(url: "https://github.com/swiftwasm/DOMKit", .revision("e45d37fb"))
+		.package(url: "https://github.com/revolter/DOMKit", .revision("88cf26"))
 	],
 	targets: [
 		.target(
