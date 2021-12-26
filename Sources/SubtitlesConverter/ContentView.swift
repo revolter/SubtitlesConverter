@@ -12,9 +12,9 @@ import TokamakDOM
 import Converters
 
 struct ContentView: View {
-	static let inputId = "file"
+	private static let inputId = "file"
 
-	var document = JSObject.global.document
+	private let document = JSObject.global.document
 
 	var body: some View {
 		VStack {
