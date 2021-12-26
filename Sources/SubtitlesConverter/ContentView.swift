@@ -34,14 +34,17 @@ struct ContentView: View {
 				let jsPromise = file.text()
 
 				jsPromise.then { content in
-					guard let newContent = ExtenderConverter.convert(content) else {
-						return
+					guard
+						let contentString = content.string,
+						let newContent = ExtenderConverter.convert(contentString)
+					else {
+						return JSValue.undefined
 					}
 
 					let newFileName = "converted_\(file.name)"
 
 					guard self.downloadFile(withContent: newContent, name: newFileName) else {
-						return
+						return JSValue.undefined
 					}
 
 					input.value = ""
@@ -49,6 +52,8 @@ struct ContentView: View {
 					// Without this, `jsPromise` gets released before this
 					// closure gets called.
 					print(jsPromise)
+
+					return JSValue.undefined
 				}
 			}
 			Button("Romanian") {
