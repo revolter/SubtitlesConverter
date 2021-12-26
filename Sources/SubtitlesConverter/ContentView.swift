@@ -12,12 +12,24 @@ import TokamakDOM
 import Converters
 
 struct ContentView: View {
+	private static let prefixLabel = "Prefix"
+	private static let prefixTextCacheKey = "prefixText"
 	private static let inputId = "file"
 
 	private let document = JSObject.global.document
 
+	@State private var prefixText: String = LocalStorage.standard.read(key: Self.prefixTextCacheKey) ?? "converted_"
+
 	var body: some View {
 		VStack {
+			HStack {
+				Text(verbatim: "\(Self.prefixLabel):")
+				TextField(Self.prefixLabel, text: self.$prefixText) { didStart in
+					if !didStart {
+						LocalStorage.standard.store(key: Self.prefixTextCacheKey, value: self.prefixText)
+					}
+				}
+			}
 			HTML("input", [
 				"id": Self.inputId,
 				"type": "file"
@@ -41,7 +53,7 @@ struct ContentView: View {
 						return JSValue.undefined
 					}
 
-					let newFileName = "converted_\(file.name)"
+					let newFileName = "\(self.prefixText)\(file.name)"
 
 					guard self.downloadFile(withContent: newContent, name: newFileName) else {
 						return JSValue.undefined
@@ -79,7 +91,7 @@ struct ContentView: View {
 						return .undefined
 					}
 
-					let newFileName = "converted_\(file.name)"
+					let newFileName = "\(self.prefixText)\(file.name)"
 
 					guard self.downloadFile(withContent: newContent, name: newFileName) else {
 						return .undefined
